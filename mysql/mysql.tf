@@ -138,7 +138,7 @@ resource "azurerm_linux_virtual_machine" "vmmysqlteste" {
 }
 
 output "public_ip_address_mysql" {
-  value = azurerm_public_ip.publicipmysqlteste.ip_address
+    value = azurerm_public_ip.publicipmysqlteste.ip_address
 }
 
 resource "time_sleep" "wait_30_seconds_db" {
