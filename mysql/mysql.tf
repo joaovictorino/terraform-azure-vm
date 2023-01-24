@@ -92,11 +92,6 @@ resource "azurerm_network_interface_security_group_association" "example" {
     network_security_group_id = azurerm_network_security_group.nsgmysqlteste.id
 }
 
-data "azurerm_public_ip" "ip_aula_data_db" {
-  name                = azurerm_public_ip.publicipmysqlteste.name
-  resource_group_name = azurerm_resource_group.rgmysqlteste.name
-}
-
 resource "azurerm_storage_account" "samsqlteste" {
     name                        = "storageaccountmyvm"
     resource_group_name         = azurerm_resource_group.rgmysqlteste.name
@@ -152,7 +147,7 @@ resource "null_resource" "upload_db" {
             type = "ssh"
             user = var.user
             password = var.password
-            host = data.azurerm_public_ip.ip_aula_data_db.ip_address
+            host = azurerm_public_ip.publicipmysqlteste.ip_address
         }
         source = "config"
         destination = "/home/azureuser"
@@ -170,7 +165,7 @@ resource "null_resource" "deploy_db" {
             type = "ssh"
             user = var.user
             password = var.password
-            host = data.azurerm_public_ip.ip_aula_data_db.ip_address
+            host = azurerm_public_ip.publicipmysqlteste.ip_address
         }
         inline = [
             "sudo apt-get update",

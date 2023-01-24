@@ -150,15 +150,10 @@ resource "azurerm_virtual_machine" "vm-aulainfra" {
   }
 }
 
-data "azurerm_public_ip" "ip-aula"{
-    name = azurerm_public_ip.ip-aulainfra.name
-    resource_group_name = azurerm_resource_group.rg-aulainfracloud.name
-}
-
 resource "null_resource" "install-apache" {
   connection {
     type = "ssh"
-    host = data.azurerm_public_ip.ip-aula.ip_address
+    host = azurerm_public_ip.ip-aulainfra.ip_address
     user = var.user
     password = var.pwd_user
   }
@@ -178,7 +173,7 @@ resource "null_resource" "install-apache" {
 resource "null_resource" "upload-app" {
   connection {
     type = "ssh"
-    host = data.azurerm_public_ip.ip-aula.ip_address
+    host = azurerm_public_ip.ip-aulainfra.ip_address
     user = var.user
     password = var.pwd_user
   }

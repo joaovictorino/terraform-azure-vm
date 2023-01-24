@@ -141,11 +141,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   ]
 }
 
-data "azurerm_public_ip" "data-publicip" {
-  name = azurerm_public_ip.publicip.name
-  resource_group_name = azurerm_resource_group.as04infra.name
-}
-
 resource "null_resource" "install-nginx" {
   triggers = {
     order = azurerm_linux_virtual_machine.vm.id
@@ -153,7 +148,7 @@ resource "null_resource" "install-nginx" {
 
   connection {
     type = "ssh"
-    host = data.azurerm_public_ip.data-publicip.ip_address
+    host = azurerm_public_ip.publicip.ip_address
     user = "adminuser"
     private_key = tls_private_key.private-key.private_key_pem
   }
