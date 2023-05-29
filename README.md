@@ -2,10 +2,10 @@
 
 Pré-requisitos
 
-- Az-cli instalado
+- az cli instalado e configurado com a conta Azure
 - Terraform instalado
 
-Logar no Azure via az-cli, o navegador será aberto para que o login seja feito
+Logar no Azure via az cli, o navegador será aberto para que o login seja feito
 
 ```sh
 az login
