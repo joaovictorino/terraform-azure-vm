@@ -1,20 +1,24 @@
-# Terraform criando IaaS no Azure
+# Terraform criando VM (IaaS) na Azure
 
 Pré-requisitos
+
 - Az-cli instalado
 - Terraform instalado
 
 Logar no Azure via az-cli, o navegador será aberto para que o login seja feito
-````sh
+
+```sh
 az login
-````
+```
 
 Inicializar o Terraform
-````sh
+
+```sh
 terraform init
-````
+```
 
 Executar o Terraform
-````sh
+
+```sh
 terraform apply -auto-approve
-````
+```
