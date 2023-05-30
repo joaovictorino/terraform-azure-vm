@@ -1,16 +1,16 @@
 terraform {
   required_providers {
     azurerm = {
-        source = "hashicorp/azurerm"
-        version = ">= 3.0.1"
+      source  = "hashicorp/azurerm"
+      version = ">= 3.0.1"
     }
   }
 }
 
 provider "azurerm" {
-    skip_provider_registration = true
-    features {
-    }
+  skip_provider_registration = true
+  features {
+  }
 }
 
 resource "azurerm_resource_group" "as04infra" {
@@ -44,9 +44,9 @@ resource "azurerm_public_ip" "publicip" {
   allocation_method   = "Static"
 
   tags = {
-    turma = "as04"
+    turma      = "as04"
     disciplina = "infra cloud"
-    professor = "João"
+    professor  = "João"
   }
 }
 
@@ -56,10 +56,10 @@ resource "azurerm_network_interface" "as04-nic" {
   resource_group_name = azurerm_resource_group.as04infra.name
 
   ip_configuration {
-    name                            = "internal"
-    subnet_id                       = azurerm_subnet.subnet.id
-    private_ip_address_allocation   = "Dynamic"
-    public_ip_address_id            = azurerm_public_ip.publicip.id
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.publicip.id
   }
 }
 
@@ -147,9 +147,9 @@ resource "null_resource" "install-nginx" {
   }
 
   connection {
-    type = "ssh"
-    host = azurerm_public_ip.publicip.ip_address
-    user = "adminuser"
+    type        = "ssh"
+    host        = azurerm_public_ip.publicip.ip_address
+    user        = "adminuser"
     private_key = tls_private_key.private-key.private_key_pem
   }
 
@@ -163,4 +163,8 @@ resource "null_resource" "install-nginx" {
   depends_on = [
     azurerm_linux_virtual_machine.vm
   ]
+}
+
+output "public_ip_address_vm" {
+  value = azurerm_public_ip.publicip.ip_address
 }

@@ -1,2 +1,2 @@
-user="testeadmin"
-pwd_user="Password1234!"
+user     = "testeadmin"
+pwd_user = "Password1234!"

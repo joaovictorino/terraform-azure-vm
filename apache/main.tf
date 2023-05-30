@@ -3,7 +3,7 @@ terraform {
 
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = ">= 2.26"
     }
   }
@@ -31,8 +31,8 @@ resource "azurerm_virtual_network" "vnet-aulainfra" {
 
   tags = {
     environment = "Production"
-    faculdade = "Impacta"
-    turma = "ES23"
+    faculdade   = "Impacta"
+    turma       = "ES23"
   }
 }
 
@@ -94,10 +94,10 @@ resource "azurerm_network_interface" "nic-aulainfra" {
   resource_group_name = azurerm_resource_group.rg-aulainfracloud.name
 
   ip_configuration {
-    name                            = "ip-aula-nic"
-    subnet_id                       = azurerm_subnet.sub-aulainfra.id
-    private_ip_address_allocation   = "Dynamic"
-    public_ip_address_id            = azurerm_public_ip.ip-aulainfra.id
+    name                          = "ip-aula-nic"
+    subnet_id                     = azurerm_subnet.sub-aulainfra.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.ip-aulainfra.id
   }
 }
 
@@ -107,11 +107,11 @@ resource "azurerm_network_interface_security_group_association" "nic-nsg-aulainf
 }
 
 resource "azurerm_storage_account" "mystorageaccount" {
-    name                        = "storageaccountmyvm"
-    resource_group_name         = azurerm_resource_group.rg-aulainfracloud.name
-    location                    = azurerm_resource_group.rg-aulainfracloud.location
-    account_tier                = "Standard"
-    account_replication_type    = "LRS"
+  name                     = "storageaccountapache"
+  resource_group_name      = azurerm_resource_group.rg-aulainfracloud.name
+  location                 = azurerm_resource_group.rg-aulainfracloud.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
 }
 
 resource "azurerm_virtual_machine" "vm-aulainfra" {
@@ -144,7 +144,7 @@ resource "azurerm_virtual_machine" "vm-aulainfra" {
   os_profile_linux_config {
     disable_password_authentication = false
   }
-  
+
   tags = {
     environment = "staging"
   }
@@ -152,9 +152,9 @@ resource "azurerm_virtual_machine" "vm-aulainfra" {
 
 resource "null_resource" "install-apache" {
   connection {
-    type = "ssh"
-    host = azurerm_public_ip.ip-aulainfra.ip_address
-    user = var.user
+    type     = "ssh"
+    host     = azurerm_public_ip.ip-aulainfra.ip_address
+    user     = var.user
     password = var.pwd_user
   }
 
@@ -172,18 +172,22 @@ resource "null_resource" "install-apache" {
 
 resource "null_resource" "upload-app" {
   connection {
-    type = "ssh"
-    host = azurerm_public_ip.ip-aulainfra.ip_address
-    user = var.user
+    type     = "ssh"
+    host     = azurerm_public_ip.ip-aulainfra.ip_address
+    user     = var.user
     password = var.pwd_user
   }
 
   provisioner "file" {
-    source = "app"
+    source      = "app"
     destination = "/home/testeadmin"
   }
 
   depends_on = [
     azurerm_virtual_machine.vm-aulainfra
   ]
+}
+
+output "public_ip_address_vm" {
+  value = azurerm_public_ip.ip-aulainfra.ip_address
 }

@@ -1,2 +1,2 @@
-user = "azureuser"
+user     = "azureuser"
 password = "Godofw@r35"

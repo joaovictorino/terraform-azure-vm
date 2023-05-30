@@ -23,7 +23,7 @@ resource "azurerm_resource_group" "rg-aula-vm" {
   location = "eastus"
 
   tags = {
-    "Environment" = "aula teste"
+    "aula" = "vm"
   }
 }
 
@@ -32,6 +32,10 @@ resource "azurerm_virtual_network" "vnet-aula-vm" {
   address_space       = ["10.0.0.0/16"]
   location            = "eastus"
   resource_group_name = azurerm_resource_group.rg-aula-vm.name
+
+  tags = {
+    "aula" = "vm"
+  }
 }
 
 resource "azurerm_subnet" "sub-aula-vm" {
@@ -46,6 +50,10 @@ resource "azurerm_public_ip" "pip-aula-vm" {
   location            = "eastus"
   resource_group_name = azurerm_resource_group.rg-aula-vm.name
   allocation_method   = "Static"
+
+  tags = {
+    "aula" = "vm"
+  }
 }
 
 resource "azurerm_network_security_group" "nsg-aula-vm" {
@@ -64,6 +72,10 @@ resource "azurerm_network_security_group" "nsg-aula-vm" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+
+  tags = {
+    "aula" = "vm"
+  }
 }
 
 resource "azurerm_network_interface" "nic-aula-vm" {
@@ -76,6 +88,10 @@ resource "azurerm_network_interface" "nic-aula-vm" {
     subnet_id                     = azurerm_subnet.sub-aula-vm.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.pip-aula-vm.id
+  }
+
+  tags = {
+    "aula" = "vm"
   }
 }
 
@@ -90,6 +106,10 @@ resource "azurerm_storage_account" "mystorageaccount" {
   location                 = "eastus"
   account_tier             = "Standard"
   account_replication_type = "LRS"
+
+  tags = {
+    "aula" = "vm"
+  }
 }
 
 resource "tls_private_key" "ssh-aula-vm" {
@@ -134,6 +154,10 @@ resource "azurerm_linux_virtual_machine" "vm-aula-vm" {
 
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.mystorageaccount.primary_blob_endpoint
+  }
+
+  tags = {
+    "aula" = "vm"
   }
 }
 
