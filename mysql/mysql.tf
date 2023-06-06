@@ -92,14 +92,6 @@ resource "azurerm_network_interface_security_group_association" "example" {
   network_security_group_id = azurerm_network_security_group.nsgmysqlteste.id
 }
 
-resource "azurerm_storage_account" "samsqlteste" {
-  name                     = "storageaccountaulasql"
-  resource_group_name      = azurerm_resource_group.rgmysqlteste.name
-  location                 = "eastus"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
-
 resource "azurerm_linux_virtual_machine" "vmmysqlteste" {
   name                  = "mysqlteste"
   location              = "eastus"
@@ -124,10 +116,6 @@ resource "azurerm_linux_virtual_machine" "vmmysqlteste" {
   admin_username                  = var.user
   admin_password                  = var.password
   disable_password_authentication = false
-
-  boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.samsqlteste.primary_blob_endpoint
-  }
 
   depends_on = [azurerm_resource_group.rgmysqlteste]
 }

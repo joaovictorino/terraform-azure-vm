@@ -165,6 +165,6 @@ resource "null_resource" "install-nginx" {
   ]
 }
 
-output "public_ip_address_vm" {
-  value = azurerm_public_ip.publicip.ip_address
+output "public_ip_nginx" {
+  value = "http://${azurerm_public_ip.publicip.ip_address}"
 }
