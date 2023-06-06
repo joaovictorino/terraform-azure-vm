@@ -39,7 +39,7 @@ resource "azurerm_virtual_network" "vnet-aula-vm" {
 }
 
 resource "azurerm_subnet" "sub-aula-vm" {
-  name                 = "mySubnet"
+  name                 = "sub-aula-vm"
   resource_group_name  = azurerm_resource_group.rg-aula-vm.name
   virtual_network_name = azurerm_virtual_network.vnet-aula-vm.name
   address_prefixes     = ["10.0.1.0/24"]
@@ -57,7 +57,7 @@ resource "azurerm_public_ip" "pip-aula-vm" {
 }
 
 resource "azurerm_network_security_group" "nsg-aula-vm" {
-  name                = "myNetworkSecurityGroup"
+  name                = "nsg-aula-vm"
   location            = "eastus"
   resource_group_name = azurerm_resource_group.rg-aula-vm.name
 
@@ -100,18 +100,6 @@ resource "azurerm_network_interface_security_group_association" "nic-nsg-aula-vm
   network_security_group_id = azurerm_network_security_group.nsg-aula-vm.id
 }
 
-resource "azurerm_storage_account" "mystorageaccount" {
-  name                     = "storageaccountmyvm"
-  resource_group_name      = azurerm_resource_group.rg-aula-vm.name
-  location                 = "eastus"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-
-  tags = {
-    "aula" = "vm"
-  }
-}
-
 resource "tls_private_key" "ssh-aula-vm" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -150,10 +138,6 @@ resource "azurerm_linux_virtual_machine" "vm-aula-vm" {
   admin_ssh_key {
     username   = "azureuser"
     public_key = tls_private_key.ssh-aula-vm.public_key_openssh
-  }
-
-  boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.mystorageaccount.primary_blob_endpoint
   }
 
   tags = {
