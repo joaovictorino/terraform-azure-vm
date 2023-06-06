@@ -106,14 +106,6 @@ resource "azurerm_network_interface_security_group_association" "nic-nsg-aulainf
   network_security_group_id = azurerm_network_security_group.nsg-aulainfra.id
 }
 
-resource "azurerm_storage_account" "mystorageaccount" {
-  name                     = "storageaccountapache"
-  resource_group_name      = azurerm_resource_group.rg-aulainfracloud.name
-  location                 = azurerm_resource_group.rg-aulainfracloud.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
-
 resource "azurerm_virtual_machine" "vm-aulainfra" {
   name                  = "vm-aula"
   location              = azurerm_resource_group.rg-aulainfracloud.location
@@ -188,6 +180,6 @@ resource "null_resource" "upload-app" {
   ]
 }
 
-output "public_ip_address_vm" {
-  value = azurerm_public_ip.ip-aulainfra.ip_address
+output "public_ip_apache" {
+  value = "http://${azurerm_public_ip.ip-aulainfra.ip_address}"
 }

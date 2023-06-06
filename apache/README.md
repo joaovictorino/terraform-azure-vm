@@ -1,4 +1,4 @@
-# Terraform criando VM (IaaS) na Azure
+# Terraform criando VM (IaaS) na Azure e instalando Apache
 
 Pré-requisitos
 
@@ -23,8 +23,4 @@ Executar o Terraform
 terraform apply -auto-approve
 ```
 
-Acessar a máquina com o comando abaixo, alterando o IP
-
-```sh
-ssh azureuser@[ip criado] -i key.pem
-```
+Acessar o Apache pelo navegador com o endereço obtido ao final da execução do Terraform

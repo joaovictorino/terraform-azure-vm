@@ -1,4 +1,4 @@
-# Terraform criando VM (IaaS) na Azure
+# Terraform criando VM (IaaS) na Azure e instalando MySQL
 
 Pré-requisitos
 
@@ -23,8 +23,8 @@ Executar o Terraform
 terraform apply -auto-approve
 ```
 
-Acessar a máquina com o comando abaixo, alterando o IP
+Acessar o MySQL com o comando abaixo, informando a senha "teste"
 
 ```sh
-ssh azureuser@[ip criado] -i key.pem
+mysql -h [ip criado] -u teste -p
 ```
