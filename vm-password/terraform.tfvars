@@ -1,2 +1,2 @@
-admin_username="azureuser"
-admin_password="Teste@admin123!"
+admin_username = "azureuser"
+admin_password = "Teste@admin123!"
