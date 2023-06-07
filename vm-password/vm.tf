@@ -92,36 +92,30 @@ resource "azurerm_network_interface_security_group_association" "nic-nsg-aula-vm
   network_security_group_id = azurerm_network_security_group.myterraformnsg.id
 }
 
-resource "azurerm_virtual_machine" "myterraformvm" {
+resource "azurerm_linux_virtual_machine" "myterraformvm" {
   name                  = "myterraformvm"
-  location              = "eastus"
+  location              = azurerm_resource_group.myterraformgroup.location
   resource_group_name   = azurerm_resource_group.myterraformgroup.name
   network_interface_ids = [azurerm_network_interface.myterraformnic.id]
-  vm_size               = "Standard_DS1_v2"
+  size                  = "Standard_DS1_v2"
 
-  storage_os_disk {
-    name              = "myOsDiskmyTFVM"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Premium_LRS"
+  os_disk {
+    name                 = "myOsDiskMySQL"
+    caching              = "ReadWrite"
+    storage_account_type = "Premium_LRS"
   }
 
-  storage_image_reference {
+  source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
     sku       = "16.04.0-LTS"
     version   = "latest"
   }
 
-  os_profile {
-    computer_name  = "myTFVM"
-    admin_username = var.admin_username
-    admin_password = var.admin_password
-  }
-
-  os_profile_linux_config {
-    disable_password_authentication = false
-  }
+  computer_name                   = "myTFVM"
+  admin_username                  = var.admin_username
+  admin_password                  = var.admin_password
+  disable_password_authentication = false
 }
 
 output "public_ip_address_vm" {

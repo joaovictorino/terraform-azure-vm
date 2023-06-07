@@ -94,7 +94,7 @@ resource "azurerm_network_interface_security_group_association" "example" {
 
 resource "azurerm_linux_virtual_machine" "vmmysqlteste" {
   name                  = "mysqlteste"
-  location              = "eastus"
+  location              = azurerm_resource_group.rgmysqlteste.location
   resource_group_name   = azurerm_resource_group.rgmysqlteste.name
   network_interface_ids = [azurerm_network_interface.nicmysqlteste.id]
   size                  = "Standard_DS1_v2"
